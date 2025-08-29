@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play Game — Radius</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root{ --bg:#0e0f12; --panel:#15171c; --text:#e8e8ea; --muted:#a5a7ac; --accent:#6ee7ff; }
+    body, html { margin:0; padding:0; width:100%; height:100%; background:var(--bg); color:var(--text); display:flex; flex-direction:column; }
+    .topbar { padding:10px 16px; background:var(--panel); border-bottom:1px solid #20232b; display:flex; align-items:center; justify-content:space-between; }
+    .topbar a { color:var(--text); text-decoration:none; font-size:14px; }
+    iframe { flex:1; border:none; width:100%; height:100%; background:#000; }
+    /* Overlay shown on unsupported devices */
+    .overlay {
+      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(14,15,18,.92), rgba(14,15,18,.96));
+      z-index:9999; padding:24px; text-align:center;
+    }
+    .overlay .card {
+      max-width:720px; border-radius:14px; padding:22px; background:linear-gradient(180deg,#111217,#0f1013);
+      box-shadow: 0 10px 40px rgba(0,0,0,.6); border:1px solid #23262c;
+    }
+    .overlay h2{margin:0 0 8px;font-size:20px}
+    .overlay p{color:var(--muted);margin:0 0 16px}
+    .overlay .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .btn-ghost{background:transparent;border:1px solid #2b2f39;color:var(--text);padding:10px 14px;border-radius:10px;text-decoration:none;display:inline-block}
+    .btn-primary{background:linear-gradient(135deg,#1b9edb,#7c5df6);border:0;color:#081018;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
+    @media (min-width: 901px){
+      /* Desktop, remove overlay by default */
+      .overlay{ display:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="games.html">← Back to Games</a>
+    <span id="gameTitle"></span>
+  </div>
+
+  <iframe id="gameFrame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+
+  <div id="mobileOverlay" class="overlay" aria-hidden="true" style="display:none;">
+    <div class="card">
+      <h2>Desktop required</h2>
+      <p>Radius games are optimized for computers. This game may not work properly on phones or tablets.</p>
+      <div class="actions">
+        <a id="openInNew" class="btn-ghost" target="_blank" rel="noopener">Open in new tab (try anyway)</a>
+        <a href="games.html" class="btn-ghost">Back to Games</a>
+      </div>
+      <p style="margin-top:12px;color:var(--muted);font-size:13px">Tip: Use a laptop or desktop with a keyboard for the best experience.</p>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const gameUrl = params.get("url");
+    const gameName = params.get("title") || "Game";
+    document.getElementById("gameTitle").textContent = gameName;
+
+    // Desktop-only detection: treat small screens or touch devices as "not allowed"
+    function isDesktopPreferred(){
+      const smallScreen = window.innerWidth <= 900;
+      const touch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+      return !(smallScreen || touch);
+    }
+
+    const overlay = document.getElementById('mobileOverlay');
+    const iframe = document.getElementById('gameFrame');
+    const openInNew = document.getElementById('openInNew');
+
+    if(!gameUrl){
+      iframe.style.display = 'none';
+      overlay.style.display = 'flex';
+      overlay.querySelector('h2').textContent = 'No game specified';
+      overlay.querySelector('p').textContent = 'This play page expects a ?url= parameter pointing to the game HTML.';
+    } else {
+      openInNew.href = gameUrl;
+      // If desktop - load the game into the iframe
+      if(isDesktopPreferred()){
+        iframe.src = gameUrl;
+        overlay.style.display = 'none';
+      } else {
+        // On mobile/touch devices show overlay blocking the iframe
+        iframe.style.display = 'none';
+        overlay.style.display = 'flex';
+      }
+    }
+
+    // If the user resizes to desktop, auto-load the iframe
+    window.addEventListener('resize', ()=>{
+      if(gameUrl && isDesktopPreferred()){
+        overlay.style.display = 'none';
+        iframe.style.display = 'block';
+        if(!iframe.src) iframe.src = gameUrl;
+      } else {
+        if(overlay) overlay.style.display = 'flex';
+        iframe.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

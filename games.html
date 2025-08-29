@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radius — Games</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="color-scheme" content="dark">
+</head>
+<body data-page="games">
+
+<div class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <span>Radius</span>
+    </a>
+    <div class="tabs">
+      <a class="tab" data-tab="home" href="index.html">Home</a>
+      <a class="tab" data-tab="games" href="games.html">Games</a>
+      <a class="tab" data-tab="movies" href="movies.html">Movies</a>
+      <a class="tab" data-tab="apps" href="apps.html">Apps</a>
+    </div>
+    <div class="right">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.3-4.3" stroke="#a5a7ac" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="11" cy="11" r="7" stroke="#a5a7ac" stroke-width="2" fill="none"/>
+        </svg>
+        <input data-search placeholder="Search...">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="main-hero">
+    <h1 class="h1">Games</h1>
+    <p class="muted">Quick filter with the search box. Edit these cards to add your own links.</p>
+    <div class="grid">
+      <a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Arcade</span><h3>Touch Soccer </h3><p class="muted"> Simple tap-to-move soccer mini</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Runner</span><h3>Block Dash </h3><p class="muted"> Dodge & weave</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Puzzle</span><h3>Hexa Brain </h3><p class="muted"> Slide tiles to score</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Casual</span><h3>Orbit Clicker </h3><p class="muted"> Gravity toy</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Arcade</span><h3>Sky Flip </h3><p class="muted"> Trampoline tricks</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Action</span><h3>Ninja Squares </h3><p class="muted"> Swipe to slice</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Strategy</span><h3>Tiny Towers </h3><p class="muted"> Stack perfect floors</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Multiplayer</span><h3>Mini Arena </h3><p class="muted"> Quick matches</p></a>
+    </div>
+  </div>
+  
+<div class="footer">
+  <span>© <span id="year"></span> Radius — built with pure HTML/CSS/JS</span>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>

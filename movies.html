@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Radius — Movies</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="color-scheme" content="dark">
+</head>
+<body data-page="movies">
+
+<div class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <span>Radius</span>
+    </a>
+    <div class="tabs">
+      <a class="tab" data-tab="home" href="index.html">Home</a>
+      <a class="tab" data-tab="games" href="games.html">Games</a>
+      <a class="tab" data-tab="movies" href="movies.html">Movies</a>
+      <a class="tab" data-tab="apps" href="apps.html">Apps</a>
+    </div>
+    <div class="right">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M21 21l-4.3-4.3" stroke="#a5a7ac" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="11" cy="11" r="7" stroke="#a5a7ac" stroke-width="2" fill="none"/>
+        </svg>
+        <input data-search placeholder="Search...">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="main-hero">
+    <h1 class="h1">Movies</h1>
+    <p class="muted">Quick filter with the search box. Edit these cards to add your own links.</p>
+    <div class="grid">
+      <a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Clips</span><h3>Clipflix </h3><p class="muted"> Short-form videos</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Shows</span><h3>Box Series </h3><p class="muted"> Binge episodes</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Anime</span><h3>AniSpot </h3><p class="muted"> Curated picks</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Docs</span><h3>DeepDive </h3><p class="muted"> Learn fast</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Movies</span><h3>Cinema Lite </h3><p class="muted"> Feature films</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Retro</span><h3>VHS Vault </h3><p class="muted"> Old-school</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Toons</span><h3>Cartoona </h3><p class="muted"> Weekend marathons</p></a>
+<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Live</span><h3>StreamNow </h3><p class="muted"> Events & more</p></a>
+    </div>
+  </div>
+  
+<div class="footer">
+  <span>© <span id="year"></span> Radius — built with pure HTML/CSS/JS</span>
+</div>
+<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>
