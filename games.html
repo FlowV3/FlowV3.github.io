@@ -1,60 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Radius — Games</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="color-scheme" content="dark">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>Flow - Play Game</title>
+<style>
+:root {
+  --bg:#0e0e10;
+  --card:#18181c;
+  --text:#f0f0f0;
+  --muted:#888;
+  --accent:#00c2ff;
+  --radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Inter",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+header{
+  padding:18px 40px;
+  background:#111;
+  border-bottom:1px solid #222;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header .logo{font-size:1.6rem;font-weight:700;color:var(--accent);}
+header a{color:var(--muted);text-decoration:none;font-size:.9rem;margin-left:20px;}
+header a:hover{color:var(--accent);}
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+}
+h1{margin-bottom:10px;}
+p{color:var(--muted);margin-bottom:20px;max-width:800px;text-align:center;}
+iframe{
+  width:100%;
+  max-width:1000px;
+  height:600px;
+  border:none;
+  border-radius:var(--radius);
+  box-shadow:0 0 20px rgba(0,194,255,0.15);
+}
+button{
+  margin-top:15px;
+  padding:10px 20px;
+  font-size:1rem;
+  border:none;
+  border-radius:var(--radius);
+  cursor:pointer;
+  background:var(--accent);
+  color:#000;
+  font-weight:600;
+  transition:.25s;
+}
+button:hover{background:#00e0ff;transform:scale(1.05);}
+footer{
+  padding:15px;
+  text-align:center;
+  color:var(--muted);
+  border-top:1px solid #222;
+  font-size:.85rem;
+}
+</style>
 </head>
-<body data-page="games">
+<body>
 
-<div class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="index.html">
-      <div class="logo"></div>
-      <span>Radius</span>
-    </a>
-    <div class="tabs">
-      <a class="tab" data-tab="home" href="index.html">Home</a>
-      <a class="tab" data-tab="games" href="games.html">Games</a>
-      <a class="tab" data-tab="movies" href="movies.html">Movies</a>
-      <a class="tab" data-tab="apps" href="apps.html">Apps</a>
-    </div>
-    <div class="right">
-      <div class="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M21 21l-4.3-4.3" stroke="#a5a7ac" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="11" cy="11" r="7" stroke="#a5a7ac" stroke-width="2" fill="none"/>
-        </svg>
-        <input data-search placeholder="Search...">
-      </div>
-    </div>
-  </div>
-</div>
+<header>
+  <div class="logo">Flow</div>
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
+</header>
 
-<div class="container">
-  <div class="main-hero">
-    <h1 class="h1">Games</h1>
-    <p class="muted">Quick filter with the search box. Edit these cards to add your own links.</p>
-    <div class="grid">
-      <a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Arcade</span><h3>Touch Soccer </h3><p class="muted"> Simple tap-to-move soccer mini</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Runner</span><h3>Block Dash </h3><p class="muted"> Dodge & weave</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Puzzle</span><h3>Hexa Brain </h3><p class="muted"> Slide tiles to score</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Casual</span><h3>Orbit Clicker </h3><p class="muted"> Gravity toy</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Arcade</span><h3>Sky Flip </h3><p class="muted"> Trampoline tricks</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Action</span><h3>Ninja Squares </h3><p class="muted"> Swipe to slice</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Strategy</span><h3>Tiny Towers </h3><p class="muted"> Stack perfect floors</p></a>
-<a class="card" href="#" target="_blank" rel="noopener"><span class="badge">Multiplayer</span><h3>Mini Arena </h3><p class="muted"> Quick matches</p></a>
-    </div>
-  </div>
-  
-<div class="footer">
-  <span>© <span id="year"></span> Radius — built with pure HTML/CSS/JS</span>
-</div>
-<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+<main>
+  <h1 id="gameTitle">Game Title</h1>
+  <p id="gameDesc">Game description will appear here.</p>
+  <iframe id="gameFrame" src=""></iframe>
+  <button id="fullscreenBtn">Go Fullscreen</button>
+</main>
 
-</div>
-<script src="script.js"></script>
+<footer>
+  Flow © 2025 — Smooth & Fast 🎮
+</footer>
+
+<script>
+// Get data from URL params
+const params=new URLSearchParams(window.location.search);
+const title=params.get("title")||"Unknown Game";
+const desc=params.get("desc")||"No description available.";
+const src=params.get("src")||"https://example.com";
+
+document.getElementById("gameTitle").textContent=title;
+document.getElementById("gameDesc").textContent=desc;
+document.getElementById("gameFrame").src=src;
+
+// Fullscreen button
+document.getElementById("fullscreenBtn").onclick=()=>{
+  let iframe=document.getElementById("gameFrame");
+  if(iframe.requestFullscreen) iframe.requestFullscreen();
+};
+</script>
+
 </body>
 </html>
