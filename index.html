@@ -1,62 +1,349 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Radius — Home</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="color-scheme" content="dark">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<title>Flow v3 - Ultimate Desktop Hub</title>
+<style>
+:root {
+  --bg:#0e0e10;
+  --card:#18181c;
+  --text:#f0f0f0;
+  --muted:#888;
+  --accent:#00c2ff;
+  --radius:12px;
+}
+
+/* Base */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Inter",sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Dark Neon Particle Background */
+body::before{
+  content:'';
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#0e0e10;
+  z-index:-2;
+}
+canvas#particles{
+  position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
+}
+
+/* Header */
+header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 40px; background:#111; border-bottom:1px solid #222;
+  position:sticky; top:0; z-index:100;
+}
+.logo{font-size:1.8rem; font-weight:700; color:var(--accent);}
+nav a{
+  margin-left:32px; color:var(--muted); text-decoration:none; font-size:1rem; transition:.2s;
+}
+nav a:hover{color:var(--accent);}
+
+/* Hero Carousel */
+.hero{
+  max-width:1200px; margin:40px auto; position:relative;
+}
+.hero-slide{
+  border-radius: var(--radius); overflow:hidden; position:absolute; width:100%; height:250px;
+  transition:opacity .5s; cursor:pointer; opacity:0;
+}
+.hero-slide.active{opacity:1; position:relative;}
+.hero-slide img{width:100%; height:100%; object-fit:cover;}
+.hero-slide h2{
+  position:absolute; color:#fff; font-size:1.8rem;
+  background:rgba(0,0,0,0.5); padding:10px 20px; border-radius:var(--radius);
+  bottom:20px; left:20px;
+}
+.hero-controls{
+  position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);
+}
+.hero-controls button{
+  background:rgba(0,0,0,0.5); border:none; color:#fff; font-size:1.5rem;
+  padding:10px 16px; cursor:pointer; border-radius:50%;
+  transition:.2s;
+}
+.hero-controls button:hover{background:var(--accent); color:#000;}
+.hero-indicators{
+  text-align:center; margin-top:260px;
+}
+.hero-indicators span{
+  display:inline-block; width:12px; height:12px; border-radius:50%; background:#222; margin:0 6px; cursor:pointer;
+  transition:.25s;
+}
+.hero-indicators span.active{background:var(--accent);}
+
+/* Controls */
+.controls{
+  display:flex; justify-content:space-between; align-items:center; max-width:1200px;
+  margin:30px auto; padding:0 20px;
+}
+.search input{
+  padding:12px 16px; border-radius:var(--radius); border:1px solid #333;
+  background:#111; color:var(--text); width:280px; font-size:1rem;
+}
+.categories{
+  display:flex; gap:16px;
+}
+.categories button{
+  padding:10px 22px; border-radius:var(--radius); border:none; background:#222;
+  color:var(--muted); font-size:.95rem; cursor:pointer; transition:.25s;
+}
+.categories button.active, .categories button:hover{
+  background:var(--accent); color:#000;
+}
+
+/* Grid */
+.grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:32px; max-width:1200px; margin:0 auto 60px; padding:0 20px;
+}
+.card{
+  background:var(--card); border-radius:var(--radius); overflow:hidden;
+  cursor:pointer; border:1px solid #222; position:relative; transition:.25s;
+}
+.card:hover{transform:translateY(-6px); box-shadow:0 10px 28px rgba(0,194,255,.18); border-color:var(--accent);}
+.card img{width:100%; height:160px; object-fit:cover;}
+.card h3{padding:14px 16px; font-size:1.05rem; font-weight:500;}
+.card p{padding:0 16px 10px; font-size:.85rem; color:var(--muted); opacity:0; transition:.3s;}
+.card:hover p{opacity:1;}
+.badge{
+  position:absolute; top:12px; left:12px; background:var(--accent);
+  color:#000; font-size:.75rem; font-weight:bold; padding:4px 8px; border-radius:6px;
+}
+.stats{
+  display:flex; justify-content:flex-start; gap:10px; padding:0 16px 14px; font-size:.8rem; color:var(--muted);
+}
+/* Favorite Heart */
+.favorite{
+  position:absolute; top:12px; right:12px; font-size:1.2rem; cursor:pointer; transition:.25s;
+  color:#888;
+}
+.favorite.active{color:var(--accent);}
+.card:hover .favorite{transform:scale(1.2);}
+.favorite:hover{transform:scale(1.3);}
+
+/* Trending / Horizontal scroll */
+.trending{
+  max-width:1200px; margin:40px auto; padding:0 20px;
+}
+.trending h2{margin-bottom:16px;}
+.trending-container{
+  display:flex; gap:16px; overflow-x:auto; padding-bottom:10px;
+}
+.trending-container::-webkit-scrollbar{height:6px;}
+.trending-container::-webkit-scrollbar-thumb{background:var(--accent); border-radius:3px;}
+.trending-container::-webkit-scrollbar-track{background:#111;}
+
+/* Footer */
+footer{
+  padding:18px; text-align:center; font-size:.85rem; color:var(--muted);
+  border-top:1px solid #222;
+}
+footer a{color:var(--accent); text-decoration:none; transition:.25s;}
+footer a:hover{text-shadow:0 0 6px var(--accent);}
+
+/* Hide on small screens */
+@media(max-width:900px){
+  body::before{content:"⚠️ Flow is desktop only."; color:var(--accent);
+    display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+    height:100vh; width:100%; text-align:center; padding:20px;}
+  body> *{display:none;}
+}
+</style>
 </head>
-<body data-page="home">
+<body>
 
-<div class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="index.html">
-      <div class="logo"></div>
-      <span>Radius</span>
-    </a>
-    <div class="tabs">
-      <a class="tab" data-tab="home" href="index.html">Home</a>
-      <a class="tab" data-tab="games" href="games.html">Games</a>
-      <a class="tab" data-tab="movies" href="movies.html">Movies</a>
-      <a class="tab" data-tab="apps" href="apps.html">Apps</a>
-    </div>
-    <div class="right">
-      <div class="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path d="M21 21l-4.3-4.3" stroke="#a5a7ac" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="11" cy="11" r="7" stroke="#a5a7ac" stroke-width="2" fill="none"/>
-        </svg>
-        <input data-search placeholder="Search...">
-      </div>
-    </div>
+<canvas id="particles"></canvas>
+
+<header>
+  <div class="logo">Flow</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Games</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<!-- Hero Carousel -->
+<section class="hero">
+  <div class="hero-slide active" data-index="0">
+    <img src="https://picsum.photos/1200/250?random=10" alt="Featured 1">
+    <h2>Featured Game One</h2>
+  </div>
+  <div class="hero-slide" data-index="1">
+    <img src="https://picsum.photos/1200/250?random=11" alt="Featured 2">
+    <h2>Featured Game Two</h2>
+  </div>
+  <div class="hero-slide" data-index="2">
+    <img src="https://picsum.photos/1200/250?random=12" alt="Featured 3">
+    <h2>Featured Game Three</h2>
+  </div>
+  <div class="hero-controls">
+    <button id="prev">&#10094;</button>
+    <button id="next">&#10095;</button>
+  </div>
+  <div class="hero-indicators">
+    <span data-index="0" class="active"></span>
+    <span data-index="1"></span>
+    <span data-index="2"></span>
+  </div>
+</section>
+
+<!-- Controls -->
+<div class="controls">
+  <div class="search">
+    <input type="text" id="searchBox" placeholder="Search games...">
+  </div>
+  <div class="categories">
+    <button class="active" data-cat="all">All</button>
+    <button data-cat="action">Action</button>
+    <button data-cat="puzzle">Puzzle</button>
+    <button data-cat="retro">Retro</button>
   </div>
 </div>
 
-<div class="container">
-  <div class="main-hero">
-    <h1 class="h1">Radius</h1>
-    <p class="muted">A clean, dark, unblocked-style hub. No libraries. No CDNs. Just fast static pages you can host on GitHub Pages.</p>
-    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
-      <a class="btn" href="games.html">Browse Games</a>
-      <a class="btn" href="movies.html">Browse Movies</a>
-      <a class="btn" href="apps.html">Browse Apps</a>
+<!-- Trending Section -->
+<div class="trending">
+  <h2>Trending Games</h2>
+  <div class="trending-container" id="trending">
+    <!-- Trending cards will clone from main grid -->
+  </div>
+</div>
+
+<!-- Game Grid -->
+<main>
+  <div class="grid" id="gameGrid">
+    <div class="card" data-cat="action" data-id="1">
+      <span class="badge">NEW</span>
+      <span class="favorite" onclick="toggleFavorite(event,1)">&#10084;</span>
+      <img src="https://picsum.photos/400/200?random=1" alt="Game 1">
+      <h3>Game One</h3>
+      <p>Fast-paced action game with explosions and missions.</p>
+      <div class="stats">👍 125 | 👁️ 320</div>
     </div>
-    <hr>
-    <div class="grid">
-      <div class="card"><span class="badge">Featured</span><h3>Touch Soccer</h3><p class="muted">Arcade-style footy. Tap & dash.</p></div>
-      <div class="card"><span class="badge">New</span><h3>Block Runner</h3><p class="muted">Endless parkour with traps.</p></div>
-      <div class="card"><span class="badge">Trending</span><h3>Clipflix</h3><p class="muted">Short vids, long vibes.</p></div>
-      <div class="card"><span class="badge">Utilities</span><h3>Math Pad</h3><p class="muted">Lightweight notes & calc.</p></div>
+    <div class="card" data-cat="puzzle" data-id="2">
+      <span class="badge">HOT</span>
+      <span class="favorite" onclick="toggleFavorite(event,2)">&#10084;</span>
+      <img src="https://picsum.photos/400/200?random=2" alt="Game 2">
+      <h3>Game Two</h3>
+      <p>Brain-teasing puzzle adventure with unique mechanics.</p>
+      <div class="stats">👍 230 | 👁️ 510</div>
+    </div>
+    <div class="card" data-cat="retro" data-id="3">
+      <span class="favorite" onclick="toggleFavorite(event,3)">&#10084;</span>
+      <img src="https://picsum.photos/400/200?random=3" alt="Game 3">
+      <h3>Game Three</h3>
+      <p>Classic retro gameplay with nostalgic vibes.</p>
+      <div class="stats">👍 90 | 👁️ 200</div>
     </div>
   </div>
-  
-<div class="footer">
-  <span>© <span id="year"></span> Radius — built with pure HTML/CSS/JS</span>
-</div>
-<script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+</main>
 
-</div>
-<script src="script.js"></script>
+<footer>
+  Flow © 2025 — Smooth & Fast 🎮 | <a href="#">About</a> | <a href="#">Contact</a> | <a href="#">Discord</a>
+</footer>
+
+<script>
+// Hero Carousel
+let slides=document.querySelectorAll('.hero-slide');
+let indicators=document.querySelectorAll('.hero-indicators span');
+let current=0;
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove('active'));
+  indicators.forEach(ind=>ind.classList.remove('active'));
+  slides[i].classList.add('active');
+  indicators[i].classList.add('active');
+  current=i;
+}
+document.getElementById('prev').onclick=()=>showSlide((current-1+slides.length)%slides.length);
+document.getElementById('next').onclick=()=>showSlide((current+1)%slides.length);
+indicators.forEach(ind=>{
+  ind.addEventListener('click',()=>showSlide(parseInt(ind.dataset.index)));
+});
+setInterval(()=>showSlide((current+1)%slides.length),5000);
+
+// Search Filter
+let cards=document.querySelectorAll('.card');
+document.getElementById('searchBox').addEventListener('input',e=>{
+  let term=e.target.value.toLowerCase();
+  cards.forEach(c=>{
+    let name=c.querySelector('h3').textContent.toLowerCase();
+    c.style.display=name.includes(term)?'block':'none';
+  });
+});
+
+// Category Filter
+let catButtons=document.querySelectorAll('.categories button');
+catButtons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    catButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    let cat=btn.dataset.cat;
+    cards.forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'block':'none';});
+  });
+});
+
+// Open game on click
+cards.forEach(c=>c.addEventListener('click',()=>window.open('https://example.com/game'+c.dataset.id,'_blank')));
+
+// Favorites System
+function toggleFavorite(e,id){
+  e.stopPropagation();
+  let favs=JSON.parse(localStorage.getItem('flowFavs')||'[]');
+  let index=favs.indexOf(id);
+  if(index>-1){favs.splice(index,1);}else{favs.push(id);}
+  localStorage.setItem('flowFavs',JSON.stringify(favs));
+  updateFavorites();
+}
+function updateFavorites(){
+  let favs=JSON.parse(localStorage.getItem('flowFavs')||'[]');
+  cards.forEach(c=>{
+    let heart=c.querySelector('.favorite');
+    c.dataset.id && favs.includes(parseInt(c.dataset.id)) ? heart.classList.add('active') : heart.classList.remove('active');
+  });
+}
+updateFavorites();
+
+// Trending Section (clone first 3 cards for demo)
+let trending=document.getElementById('trending');
+cards.forEach(c=>trending.appendChild(c.cloneNode(true)));
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'){e.preventDefault(); document.getElementById('searchBox').focus();}
+  if(e.key==='ArrowRight') showSlide((current+1)%slides.length);
+  if(e.key==='ArrowLeft') showSlide((current-1+slides.length)%slides.length);
+});
+
+// Particle Background
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+let particles=[];
+for(let i=0;i<80;i++){
+  particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2+1, dx:(Math.random()-0.5)/2, dy:(Math.random()-0.5)/2});
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width)p.dx*=-1;
+    if(p.y<0||p.y>canvas.height)p.dy*=-1;
+    ctx.fillStyle='rgba(0,194,255,0.3)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
+</script>
 </body>
 </html>
