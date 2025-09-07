@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
-<title>Flow - Play Game</title>
+<title>Flow - Games</title>
 <style>
 :root {
   --bg:#0e0e10;
@@ -19,8 +19,6 @@ body{
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
 }
 header{
   padding:18px 40px;
@@ -33,42 +31,42 @@ header{
 header .logo{font-size:1.6rem;font-weight:700;color:var(--accent);}
 header a{color:var(--muted);text-decoration:none;font-size:.9rem;margin-left:20px;}
 header a:hover{color:var(--accent);}
-main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
+.controls{
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:1200px;margin:30px auto;padding:0 20px;
 }
-h1{margin-bottom:10px;}
-p{color:var(--muted);margin-bottom:20px;max-width:800px;text-align:center;}
-iframe{
-  width:100%;
-  max-width:1000px;
-  height:600px;
-  border:none;
-  border-radius:var(--radius);
-  box-shadow:0 0 20px rgba(0,194,255,0.15);
+.search input{
+  padding:12px 16px;border-radius:var(--radius);border:1px solid #333;
+  background:#111;color:var(--text);width:280px;font-size:1rem;
 }
-button{
-  margin-top:15px;
-  padding:10px 20px;
-  font-size:1rem;
-  border:none;
-  border-radius:var(--radius);
-  cursor:pointer;
-  background:var(--accent);
-  color:#000;
-  font-weight:600;
-  transition:.25s;
+.categories{display:flex;gap:16px;}
+.categories button{
+  padding:10px 22px;border-radius:var(--radius);border:none;background:#222;
+  color:var(--muted);cursor:pointer;font-size:.95rem;transition:.25s;
 }
-button:hover{background:#00e0ff;transform:scale(1.05);}
+.categories button.active,.categories button:hover{background:var(--accent);color:#000;}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:32px;max-width:1200px;margin:0 auto 60px;padding:0 20px;
+}
+.card{
+  background:var(--card);border-radius:var(--radius);overflow:hidden;
+  cursor:pointer;border:1px solid #222;transition:.25s;position:relative;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 10px 28px rgba(0,194,255,.18);border-color:var(--accent);}
+.card img{width:100%;height:160px;object-fit:cover;}
+.card h3{padding:14px 16px;font-size:1.05rem;font-weight:500;}
+.card p{padding:0 16px 14px;font-size:.85rem;color:var(--muted);}
+.badge{
+  position:absolute;top:12px;left:12px;background:var(--accent);
+  color:#000;font-size:.75rem;font-weight:bold;padding:4px 8px;border-radius:6px;
+}
+.stats{
+  display:flex;gap:10px;padding:0 16px 14px;font-size:.8rem;color:var(--muted);
+}
 footer{
-  padding:15px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid #222;
-  font-size:.85rem;
+  padding:15px;text-align:center;color:var(--muted);
+  border-top:1px solid #222;font-size:.85rem;
 }
 </style>
 </head>
@@ -78,14 +76,169 @@ footer{
   <div class="logo">Flow</div>
   <nav>
     <a href="index.html">Home</a>
+    <a href="games.html">Games</a>
+    <a href="#">About</a>
   </nav>
 </header>
 
+<div class="controls">
+  <div class="search">
+    <input type="text" id="searchBox" placeholder="Search games...">
+  </div>
+  <div class="categories">
+    <button class="active" data-cat="all">All</button>
+    <button data-cat="action">Action</button>
+    <button data-cat="puzzle">Puzzle</button>
+    <button data-cat="retro">Retro</button>
+  </div>
+</div>
+
 <main>
-  <h1 id="gameTitle">Game Title</h1>
-  <p id="gameDesc">Game description will appear here.</p>
-  <iframe id="gameFrame" src=""></iframe>
-  <button id="fullscreenBtn">Go Fullscreen</button>
+  <div class="grid" id="gameGrid">
+    <!-- 20 Game Slots -->
+    <div class="card" data-cat="action">
+      <span class="badge">NEW</span>
+      <img src="https://picsum.photos/400/200?random=101" alt="Game 1">
+      <h3>Game One</h3>
+      <p>Fast-paced action game with explosions and missions.</p>
+      <div class="stats">👍 125 | 👁️ 320</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <span class="badge">HOT</span>
+      <img src="https://picsum.photos/400/200?random=102" alt="Game 2">
+      <h3>Game Two</h3>
+      <p>Brain-teasing puzzle adventure with unique mechanics.</p>
+      <div class="stats">👍 230 | 👁️ 510</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=103" alt="Game 3">
+      <h3>Game Three</h3>
+      <p>Classic retro gameplay with nostalgic vibes.</p>
+      <div class="stats">👍 90 | 👁️ 200</div>
+    </div>
+
+    <!-- Extra 17 slots -->
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=104" alt="Game 4">
+      <h3>Game Four</h3>
+      <p>Adrenaline-filled combat levels.</p>
+      <div class="stats">👍 75 | 👁️ 180</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=105" alt="Game 5">
+      <h3>Game Five</h3>
+      <p>Challenging puzzles and clever solutions.</p>
+      <div class="stats">👍 65 | 👁️ 140</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=106" alt="Game 6">
+      <h3>Game Six</h3>
+      <p>Retro-styled fun with pixel art.</p>
+      <div class="stats">👍 110 | 👁️ 260</div>
+    </div>
+
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=107" alt="Game 7">
+      <h3>Game Seven</h3>
+      <p>Arcade shooter with endless waves.</p>
+      <div class="stats">👍 140 | 👁️ 330</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=108" alt="Game 8">
+      <h3>Game Eight</h3>
+      <p>Logic-based levels to test your brain.</p>
+      <div class="stats">👍 85 | 👁️ 170</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=109" alt="Game 9">
+      <h3>Game Nine</h3>
+      <p>Pixelated adventure in old-school style.</p>
+      <div class="stats">👍 95 | 👁️ 210</div>
+    </div>
+
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=110" alt="Game 10">
+      <h3>Game Ten</h3>
+      <p>Survival action in intense battles.</p>
+      <div class="stats">👍 120 | 👁️ 250</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=111" alt="Game 11">
+      <h3>Game Eleven</h3>
+      <p>Mind-bending puzzles await you.</p>
+      <div class="stats">👍 60 | 👁️ 130</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=112" alt="Game 12">
+      <h3>Game Twelve</h3>
+      <p>Retro arcade vibes with addictive gameplay.</p>
+      <div class="stats">👍 100 | 👁️ 220</div>
+    </div>
+
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=113" alt="Game 13">
+      <h3>Game Thirteen</h3>
+      <p>High-energy action and boss fights.</p>
+      <div class="stats">👍 150 | 👁️ 360</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=114" alt="Game 14">
+      <h3>Game Fourteen</h3>
+      <p>Match and solve puzzle mechanics.</p>
+      <div class="stats">👍 70 | 👁️ 160</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=115" alt="Game 15">
+      <h3>Game Fifteen</h3>
+      <p>Retro shooter experience with power-ups.</p>
+      <div class="stats">👍 115 | 👁️ 240</div>
+    </div>
+
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=116" alt="Game 16">
+      <h3>Game Sixteen</h3>
+      <p>Adventure through action-packed worlds.</p>
+      <div class="stats">👍 130 | 👁️ 280</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=117" alt="Game 17">
+      <h3>Game Seventeen</h3>
+      <p>Unravel puzzles and mysteries.</p>
+      <div class="stats">👍 55 | 👁️ 120</div>
+    </div>
+
+    <div class="card" data-cat="retro">
+      <img src="https://picsum.photos/400/200?random=118" alt="Game 18">
+      <h3>Game Eighteen</h3>
+      <p>Old-school fun with modern twists.</p>
+      <div class="stats">👍 90 | 👁️ 200</div>
+    </div>
+
+    <div class="card" data-cat="action">
+      <img src="https://picsum.photos/400/200?random=119" alt="Game 19">
+      <h3>Game Nineteen</h3>
+      <p>Fight your way through levels of chaos.</p>
+      <div class="stats">👍 160 | 👁️ 390</div>
+    </div>
+
+    <div class="card" data-cat="puzzle">
+      <img src="https://picsum.photos/400/200?random=120" alt="Game 20">
+      <h3>Game Twenty</h3>
+      <p>Creative puzzles with increasing difficulty.</p>
+      <div class="stats">👍 80 | 👁️ 170</div>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -93,21 +246,29 @@ footer{
 </footer>
 
 <script>
-// Get data from URL params
-const params=new URLSearchParams(window.location.search);
-const title=params.get("title")||"Unknown Game";
-const desc=params.get("desc")||"No description available.";
-const src=params.get("src")||"https://example.com";
+// Search Filter
+const search=document.getElementById('searchBox');
+const cards=document.querySelectorAll('.card');
+search.addEventListener('input',()=>{
+  let term=search.value.toLowerCase();
+  cards.forEach(c=>{
+    let name=c.querySelector('h3').textContent.toLowerCase();
+    c.style.display=name.includes(term)?'block':'none';
+  });
+});
 
-document.getElementById("gameTitle").textContent=title;
-document.getElementById("gameDesc").textContent=desc;
-document.getElementById("gameFrame").src=src;
-
-// Fullscreen button
-document.getElementById("fullscreenBtn").onclick=()=>{
-  let iframe=document.getElementById("gameFrame");
-  if(iframe.requestFullscreen) iframe.requestFullscreen();
-};
+// Category Filter
+const buttons=document.querySelectorAll('.categories button');
+buttons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    let cat=btn.dataset.cat;
+    cards.forEach(c=>{
+      c.style.display=(cat==='all'||c.dataset.cat===cat)?'block':'none';
+    });
+  });
+});
 </script>
 
 </body>
